@@ -32,7 +32,7 @@ export class PacienteCreateComponent implements OnInit {
   ) {
     this.paciente = data;
     this.form = this.formBuilder.group(
-      {        
+      {
         'nombre': [null, Validators.compose([Validators.required, Validators.maxLength(60)])],
         'numeroSeguroSocial': [null, Validators.compose([Validators.required])],
         'medicoPreferido': [null, Validators.compose([Validators.required])]
@@ -48,26 +48,34 @@ export class PacienteCreateComponent implements OnInit {
     this.dialogRef.close();
   }
   save() {
-    if (this.form.valid == true) {      
-      let paciente = new CreatePacienteIn();    
+    if (this.form.valid == true) {
+      let paciente = new CreatePacienteIn();
       paciente.Nombre = this.paciente.nombre;
       paciente.NumeroSeguro = this.paciente.numeroSeguroSocial;
       paciente.MedicoPreferido = this.paciente.medicoPreferido;
-      this.servicio.create(paciente).subscribe(data => {
+      let v = this.servicio.create(paciente);
+      debugger;
+      if (v) {
         this.dialogRef.close(this.form.value);
         // this.enviada = false;
         this.snackBar.open('¡Se registraron los datos con exito!', 'X', {
           duration: 5000,
           panelClass: ['success-snackbar']
         });
-      }, error => {
+
+      } else {
         var mensaje = 'Se presento un problema con el servidor, por favor comuníquese con el administrador.';
         // this.disableSubmit = false;
         this.snackBar.open(mensaje, 'X', {
           duration: 10000,
           panelClass: ['error-snackbar']
         });
-      });
+      }
+
+
+
+
+
     } else {
       this.snackBar.open('Favor revise el formulario', 'X', {
         duration: 5000,
@@ -79,7 +87,7 @@ export class PacienteCreateComponent implements OnInit {
 
 
 
-   
+
   }
 
 }

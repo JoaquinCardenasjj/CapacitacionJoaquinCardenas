@@ -33,7 +33,7 @@ export class ConfirmacionComponent implements OnInit {
     this.json = JSON.parse(JSON.stringify(data));
   }
   ngOnInit() {
-    debugger;
+    
     var jsonP = JSON.parse(JSON.stringify(this.json));
     this.deleteId = jsonP.deleteId;
     this.accion = jsonP.accion;
@@ -47,7 +47,7 @@ export class ConfirmacionComponent implements OnInit {
     this.dialogRef.close();
   }
   save() {
-debugger;
+
   
   
     this.servicio.delete( this.deleteId, this.controlador, this.accion).subscribe(data => {

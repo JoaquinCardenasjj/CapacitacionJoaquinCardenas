@@ -12,11 +12,14 @@ const routes: Routes = [
   {
     path: 'paciente', component: PacienteComponent,
     children: [
-        {
-            path: '', children: PACIENTE_ROUTES
-        },
-    ]
-}
+      {
+        path: '', children: PACIENTE_ROUTES
+      },
+    ],
+  }, {
+    path: 'paciente/:id', component: PacienteComponent,
+
+  }
 ];
 
 @NgModule({

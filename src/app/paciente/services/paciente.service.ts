@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { AppSettings } from 'src/app/app.settings';
 
 import { map } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { UpdatePacienteIn } from '../MethodParameters/Paciente/updatePacienteIn'
 import { UpdatePacienteOut } from '../MethodParameters/Paciente/updatePacienteOut';
 import { DeletePacienteOut } from '../MethodParameters/Paciente/deletePacienteOut';
 import { DeletePacienteIn } from '../MethodParameters/Paciente/deletePacienteIn';
+import { PacienteListNewComponent } from '../paciente-listnew/paciente-listnew.component';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,19 +21,37 @@ const httpOptions = {
 })
 export class PacienteService {
   private resourceUrl: string;
+  public dataSource: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public dataSourcePaciente = new BehaviorSubject<CreatePacienteIn>(new CreatePacienteIn());
   constructor(
     private http: HttpClient,
-    private appSettings: AppSettings
+    private appSettings: AppSettings,
+    private pacienteListNewComponent: PacienteListNewComponent
   ) {
     this.resourceUrl = appSettings.settings.hostApi + "Paciente";
   }
 
   list(): Observable<any> {
     return this.http.post(`${this.resourceUrl}`, '');
+
+
+
   }
-  create(paciente: CreatePacienteIn): Observable<CreatePacienteOut> {
-    let response = this.http.post<CreatePacienteOut>(this.resourceUrl + '/crear', paciente, httpOptions);
-    return response;
+  create(paciente: CreatePacienteIn): Boolean {
+    let respuesta = new Boolean;
+    respuesta = true;
+    let response = this.http.post<CreatePacienteOut>(this.resourceUrl + '/crear', paciente, httpOptions).toPromise()
+      .then(
+        res => { // Success
+          
+          this.dataSource.next(true);
+          this.dataSourcePaciente.next(paciente);
+        }
+      );;
+
+    return respuesta;
+
+
   }
   update(paciente: UpdatePacienteIn): Observable<UpdatePacienteOut> {
     let response = this.http.post<UpdatePacienteOut>(this.resourceUrl + '/editar', paciente, httpOptions);

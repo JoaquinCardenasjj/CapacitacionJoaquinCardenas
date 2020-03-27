@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { PacienteService } from './services/paciente.service';
 
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
@@ -26,10 +26,14 @@ export interface PeriodicElement {
 export class PacienteComponent implements OnInit {
   displayedColumns: string[];
   dataSource: Array<Paciente>;
+  conteoTotal: string;
+  conteoTotalNuevos: string;
+  // @Output() UploadSuccess = new EventEmitter<string>();
   constructor(private servicio: PacienteService,
+    private pacienteListComponent: PacienteListComponent,
     private dialog: MatDialog, ) { }
   ngOnInit() {
-
+    
     this.loadData();
 
     this.displayedColumns = [
@@ -46,6 +50,7 @@ export class PacienteComponent implements OnInit {
     var listaPacientes = this.servicio.list().subscribe(async (data: GetPacientesOut) => {
 
       if (data.result != Result.Error) {
+
         this.dataSource = data.pacientes;
       }
     },
@@ -63,7 +68,9 @@ export class PacienteComponent implements OnInit {
 
     const dialogRef = this.dialog.open(PacienteEditComponent, dialogConfig)
       .afterClosed().subscribe(result => {
+
         this.loadData();
+        // this.pacienteListComponent.loadData();
       });
   }
   create(): void {
@@ -76,13 +83,16 @@ export class PacienteComponent implements OnInit {
     dialogConfig.data = paciente;
     dialogConfig.width = '70%';
 
+
     const dialogRef = this.dialog.open(PacienteCreateComponent, dialogConfig)
       .afterClosed().subscribe(result => {
+
         this.loadData();
+        // this.pacienteListComponent.loadData();
       });
   }
   delete(paciente: Paciente): void {
-    
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -93,6 +103,14 @@ export class PacienteComponent implements OnInit {
       .afterClosed().subscribe(result => {
         this.loadData();
       });
+  }
+  ConteoTotalSuccess(conteoTotal: string) {
+
+    this.conteoTotal = conteoTotal;
+  }
+  ConteoTotalNuevosSuccess(conteoTotalNuevos: string) {
+
+    this.conteoTotalNuevos = conteoTotalNuevos;
   }
 
 

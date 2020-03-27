@@ -9,32 +9,39 @@ import { PacienteComponent } from './paciente.component';
 import { PacienteRoutingModule } from './paciente-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { PacienteListComponent } from './paciente-list/paciente-list.component';
+import { PacienteListNewComponent } from './paciente-listnew/paciente-listnew.component';
 
 
 @NgModule({
-  exports: [            
-    MaterialModule,    
-    
+  exports: [
+    MaterialModule,
+
     PacienteEditComponent
   ],
-  declarations: [    
+  declarations: [
     PacienteComponent,
     PacienteEditComponent,
     PacienteCreateComponent,
-    PacienteListComponent
+    PacienteListComponent,
+    PacienteListNewComponent
   ],
   imports: [
-    
+
     PacienteRoutingModule,
-    MaterialModule,   
-    
+    MaterialModule,
+
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    
+
   ],
-  entryComponents: [PacienteEditComponent, PacienteCreateComponent, PacienteListComponent],
-  providers: [],
+  entryComponents:
+    [PacienteEditComponent,
+      PacienteCreateComponent,
+      PacienteListComponent,
+      PacienteListNewComponent
+    ],
+  providers: [PacienteListNewComponent,PacienteListComponent],
   bootstrap: []
 })
 export class PacienteModule { }

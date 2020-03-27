@@ -29,7 +29,7 @@ export class SharedService {
   }
 
   delete(paciente: any, controlador: string, accion: string): Observable<any> {
-    debugger;
+    
     this.claseIn = 
       {
         "Id": paciente
