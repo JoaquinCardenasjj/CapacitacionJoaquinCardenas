@@ -301,6 +301,7 @@
         <mat-form-field class="w-100">
             <input matInput placeholder="Total pacientes nuevos" value="{{conteoTotalNuevos}}" autocomplete="off" type="text">
         </mat-form-field>
+        <button  mat-raised-button color="primary" class="m-1 mb-10" (click)="descargar();">Descargar</button>
     </div>
     <app-paciente-list (ConteoSuccess)="ConteoTotalSuccess($event)"></app-paciente-list>
     <br>

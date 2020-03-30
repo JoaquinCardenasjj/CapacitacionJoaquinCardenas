@@ -54,7 +54,7 @@ export class PacienteCreateComponent implements OnInit {
       paciente.NumeroSeguro = this.paciente.numeroSeguroSocial;
       paciente.MedicoPreferido = this.paciente.medicoPreferido;
       let v = this.servicio.create(paciente);
-      debugger;
+      
       if (v) {
         this.dialogRef.close(this.form.value);
         // this.enviada = false;

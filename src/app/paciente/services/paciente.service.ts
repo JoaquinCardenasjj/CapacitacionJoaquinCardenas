@@ -11,6 +11,8 @@ import { UpdatePacienteOut } from '../MethodParameters/Paciente/updatePacienteOu
 import { DeletePacienteOut } from '../MethodParameters/Paciente/deletePacienteOut';
 import { DeletePacienteIn } from '../MethodParameters/Paciente/deletePacienteIn';
 import { PacienteListNewComponent } from '../paciente-listnew/paciente-listnew.component';
+import { getPacienteIn } from '../MethodParameters/Paciente/getPacienteIn';
+import { GetPacienteExportacionOut } from '../MethodParameters/Paciente/getPacienteExportacionOut';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -43,22 +45,30 @@ export class PacienteService {
     let response = this.http.post<CreatePacienteOut>(this.resourceUrl + '/crear', paciente, httpOptions).toPromise()
       .then(
         res => { // Success
-          
+
           this.dataSource.next(true);
           this.dataSourcePaciente.next(paciente);
         }
       );;
-
     return respuesta;
-
-
   }
+  
   update(paciente: UpdatePacienteIn): Observable<UpdatePacienteOut> {
     let response = this.http.post<UpdatePacienteOut>(this.resourceUrl + '/editar', paciente, httpOptions);
     return response;
   }
   delete(paciente: DeletePacienteIn): Observable<DeletePacienteOut> {
     let response = this.http.post<DeletePacienteOut>(this.resourceUrl + '/eliminar', paciente, httpOptions);
+    return response;
+  }
+  detalle(id: number): Observable<any> {
+    let paciente = new getPacienteIn();
+    paciente.Id = id;
+    let response = this.http.post<any>(this.resourceUrl + '/detalle', paciente, httpOptions);
+    return response;
+  }
+  descargar(): Observable<GetPacienteExportacionOut> {
+    let response = this.http.post<GetPacienteExportacionOut>(this.resourceUrl + '/exportacion', httpOptions);
     return response;
   }
 

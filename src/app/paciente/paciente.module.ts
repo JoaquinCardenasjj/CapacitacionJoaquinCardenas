@@ -10,6 +10,8 @@ import { PacienteRoutingModule } from './paciente-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { PacienteListComponent } from './paciente-list/paciente-list.component';
 import { PacienteListNewComponent } from './paciente-listnew/paciente-listnew.component';
+import { PacienteDetalleComponent } from './paciente-detalle/paciente-detalle.component';
+import { AuthGuardService } from './services/auth.guard.service';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { PacienteListNewComponent } from './paciente-listnew/paciente-listnew.co
     PacienteEditComponent,
     PacienteCreateComponent,
     PacienteListComponent,
-    PacienteListNewComponent
+    PacienteListNewComponent,
+    PacienteDetalleComponent
   ],
   imports: [
 
@@ -38,10 +41,15 @@ import { PacienteListNewComponent } from './paciente-listnew/paciente-listnew.co
   entryComponents:
     [PacienteEditComponent,
       PacienteCreateComponent,
+      PacienteDetalleComponent,
       PacienteListComponent,
       PacienteListNewComponent
     ],
-  providers: [PacienteListNewComponent,PacienteListComponent],
+  providers: [
+    PacienteListNewComponent,
+    PacienteListComponent,
+    AuthGuardService
+  ],
   bootstrap: []
 })
 export class PacienteModule { }

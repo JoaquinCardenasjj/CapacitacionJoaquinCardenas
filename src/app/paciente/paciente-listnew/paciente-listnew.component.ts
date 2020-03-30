@@ -45,7 +45,7 @@ export class PacienteListNewComponent implements OnInit {
         paci.medicoPreferido = json.MedicoPreferido;
         paci.nombre = json.Nombre;
         paci.numeroSeguroSocial = json.NumeroSeguro;
-        debugger;
+        
         if (this.dataSource == undefined) {
           this.dataSource = new Array<Paciente>();
         }

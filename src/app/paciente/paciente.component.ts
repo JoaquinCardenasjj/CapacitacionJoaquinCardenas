@@ -8,6 +8,7 @@ import { Result } from './MethodParameters/result';
 import { PacienteEditComponent } from './paciente-edit/paciente-edit.component';
 import { PacienteCreateComponent } from './paciente-create/paciente-create.component';
 import { PacienteListComponent } from './paciente-list/paciente-list.component';
+import { MatSnackBar } from '@angular/material';
 
 
 export interface PeriodicElement {
@@ -31,9 +32,10 @@ export class PacienteComponent implements OnInit {
   // @Output() UploadSuccess = new EventEmitter<string>();
   constructor(private servicio: PacienteService,
     private pacienteListComponent: PacienteListComponent,
+    private snackBar: MatSnackBar,
     private dialog: MatDialog, ) { }
   ngOnInit() {
-    
+
     this.loadData();
 
     this.displayedColumns = [
@@ -90,6 +92,34 @@ export class PacienteComponent implements OnInit {
         this.loadData();
         // this.pacienteListComponent.loadData();
       });
+  }
+  descargar(): void {
+
+    this.servicio.descargar().subscribe(data => {
+      debugger;
+      var jsonP = JSON.parse(JSON.stringify(data));
+
+      const linkSource = 'data:application/pdf;base64,' + data.archivo;
+      const downloadLink = document.createElement("a");
+      const fileName = "example.pdf";
+
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
+
+      // this.enviada = false;
+      this.snackBar.open('¡Se encontro el archivo con exito!', 'X', {
+        duration: 5000,
+        panelClass: ['success-snackbar']
+      });
+    }, error => {
+      var mensaje = 'Se presento un problema con el servidor, por favor comuníquese con el administrador.';
+      // this.disableSubmit = false;
+      this.snackBar.open(mensaje, 'X', {
+        duration: 10000,
+        panelClass: ['error-snackbar']
+      });
+    });
   }
   delete(paciente: Paciente): void {
 

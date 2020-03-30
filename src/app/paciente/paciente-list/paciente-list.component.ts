@@ -25,7 +25,9 @@ export class PacienteListComponent implements OnInit {
   
 
   constructor(private servicio: PacienteService,
-    private dialog: MatDialog, ) { }
+    private dialog: MatDialog,
+    private router: Router
+    ) { }
   ngOnInit() {
     // this.servicio.bSubject.next("load")
 
@@ -50,7 +52,7 @@ export class PacienteListComponent implements OnInit {
 
       if (data.result != Result.Error) {
         this.dataSource = data.pacientes;
-        debugger;
+        
         this.ConteoSuccess.emit(this.dataSource.length.toString());
       }
     },
@@ -105,6 +107,12 @@ export class PacienteListComponent implements OnInit {
       .afterClosed().subscribe(result => {
         this.loadData();
       });
+  }
+  detalle(paciente: Paciente): void {
+    var posUltimaPosicion = location.pathname.lastIndexOf('/');
+    var urlBack = location.pathname.substr(0, posUltimaPosicion + 1) + "paciente/" + paciente.id_Paciente;
+    this.router.navigate([urlBack]);
+    
   }
 
 }
